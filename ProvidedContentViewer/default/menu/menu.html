@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <title>Waiting for cast</title>
+
+    <style>
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .progress {
+            height: 8px;
+        }
+    </style>
+
+    <script>
+        function dbgwrite(str) { document.getElementById('dbgview').innerHTML = str; }
+
+        function s_wait() { rewritebar(setclassprg('bg-success')); }
+        function s_waitinfo() { rewritebar(setclassprg('bg-info')); }
+        function s_con() { rewritebar(setclassprg('bg-primary progress-bar-striped progress-bar-animated')); }
+        function s_waitstream() { rewritebar(setclassprg('bg-warning')); }
+        function s_err() { rewritebar(setclassprg('bg-danger')); }
+        function s_syswait() { rewritebar(setclassprg('bg-secondary progress-bar-striped progress-bar-animated')); }
+        function s_disable() { rewritebar(setclassprg('bg-secondary')); }
+
+        function set_pname(str) { document.getElementById('pname').innerHTML = str; }
+        function set_pnote(str) { document.getElementById('pnote').innerHTML = str; }
+
+        function jumppage(url) { location.href = url; }
+
+        function setclassprg(cls) { return '<div class="progress-bar ' + cls + '" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>'; }
+
+        function rewritebar(barhtml) {
+            $('#pbar').fadeOut('slow', function () {
+                document.getElementById('pbar').innerHTML = barhtml;
+                $('#pbar').hide().fadeIn('slow', function () {
+                    console.log("status changed");
+                });
+            });
+        }
+
+        function fill(color) {
+            document.getElementById('bout').setAttribute("style", "background-color:" + color + ";");
+            $('#bout').hide().fadeIn('slow', function () {
+                console.log("filled");
+            });
+        }
+
+        function unfill() {
+            $('#bout').fadeOut('slow', function () {
+                console.log("unfilled");
+            });
+        }
+    </script>
+</head>
+<body class="bg-dark text-white" id="bod">
+    <div class="fullscreen d-flex justify-content-center flex-column">
+        <div class="text-center"><h1 id="pname">mkaraki apps</h1></div> <!-- Name (e.x. Group name, Event Name) -->
+        <div class="text-center"><h3 id="pnote">Please wait until start session.</h3></div> <!-- Note -->
+        <br />
+        <br />
+        <div id="pcont"><div class="progress bg-dark" id="pbar"></div></div> <!-- Progress bar container -->
+    </div>
+    <div class="fullscreen" id="bout"></div> <!-- For blackout screen -->
+
+    <div class="fullscreen text-secondary" id="dbgview"></div> <!-- For Debug -->
+</body>
+</html>
